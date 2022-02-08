@@ -18,8 +18,9 @@ The data you will use for training, validation and testing is organized as follo
     - val: contain the val data (empty to start)
     - test - contains 3 files to test your model and create inference videos
 ```
+
 The `training_and_validation` folder contains file that have been downsampled: we have selected one every 10 frames from 10 fps videos. The `testing` folder contains frames from the 10 fps video without downsampling.
-```
+
 You will split this `training_and_validation` data into `train`, and `val` sets by completing and executing the `create_splits.py` file.
 
 
@@ -138,24 +139,56 @@ Finally, you can create a video of your model's inferences for any tf record fil
 python inference_video.py --labelmap_path label_map.pbtxt --model_path experiments/reference/exported/saved_model --tf_record_path /data/waymo/testing/segment-12200383401366682847_2552_140_2572_140_with_camera_labels.tfrecord --config_path experiments/reference/pipeline_new.config --output_path animation.gif
 ```
 
-## Submission Template
-
 ### Project overview
-This section should contain a brief description of the project and what we are trying to achieve. Why is object detection such an important component of self driving car systems?
+
+This Repositry is Provided by Udacity to practice the workflow of Object Detection Model.
 
 ### Set up
-This section should contain a brief description of the steps to follow to run the code for this repository.
+I have used Classroom WorkSpace everthing is already there.
 
 ### Dataset
+Waymo Data set is used in this Project. I Split the data set in 80:20 ratio for training set and validation set to avoid the overfitting issue
+data set is randomly  distributed.
+
 #### Dataset analysis
-This section should contain a quantitative and qualitative description of the dataset. It should include images, charts and other visualizations.
+Image in Dataset were having different Environment Condition(Day, Night, Foggy, Sunny)
+![DataAnalysis](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/DataAnalysis.png)
+
 #### Cross validation
-This section should detail the cross validation strategy and justify your approach.
+There are total 100 tfrecords given so i split it in 80:20 ratio for training and validation set and 3 tfrecords are present in test data set.
+As the data set images are captured from a running video i distributed it in random manner.
 
 ### Training
 #### Reference experiment
-This section should detail the results of the reference experiment. It should includes training metrics and a detailed explanation of the algorithm's performances.
-
 #### Improve on the reference
-This section should highlight the different strategies you adopted to improve your model. It should contain relevant figures and details of your findings.
+
+##### Image after applying augmentation(random_crop, random_brightness, random_contrast, random_pixel_value_scale)
+
+![1](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/Data_Aug1.png)
+
+![2](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/Data_Aug2.png)
+
+![3](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/Data_Aug3.png)
+
+![4](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/Data_Aug4.png)
+
+Training and Evaluation used SSD_Resnet50 with 4 augmentation as mention above.
+
+**Due To OOM Error I am not able to run training and Evaluation script parallely but i increase steps upto 3000**.
+
+After finishing the experiment the train and eval loss look something like this.
+
+![Tensorboard](https://user-images.githubusercontent.com/26718981/152779824-215f3868-b5ca-4d6a-8a8e-0b71faaa41f1.png)
+
+ The Blue dot is eval loss and orange curve is training loss. 
+ After finishing the Total_Loss difference between Eval(1.95) and Training (1.87) is **.08**
+ 
+Recall Chart:
+
+![Recall](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/Recall.png)
+
+Precision Chart:
+
+![Precision](https://github.com/Ambujaksh-shah/Object-Detection-In-UrbanEnviroment/blob/master/img/Precision.png)
+
 
